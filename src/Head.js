@@ -8,7 +8,7 @@ dispatch(toggleMenu())
 }
 
   return (
-    <div className='grid grid-flow-col p-5 m-2 shadow'>
+    <div className='grid grid-flow-col p-5 m-2 '>
 <div className='flex col-span-1' >
     <img onClick={()=>toggleMenuHandler()} className='h-8 cursor-pointer' src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/2048px-Hamburger_icon.svg.png" alt="menu" />
    <a href="/"> <img className='h-8 ml-2' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuE54d8krphaVP1AQ1Jd4G1uRqLcA2N81TnA&usqp=CAU" alt="youtube logo" /> </a>
