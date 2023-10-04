@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "./utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "./utils/constants";
+import { cacheResults } from "./utils/searchSlice";
 export default function Head() {
 
   const[searchQuery,setSerachQuery]=useState("");
   const [suggestions,setSuggestion]=useState([]);
+  const [showSuggestion,setShowSuggestion]=useState(false)
+  const searchCache=useSelector(store=>store.search);
+  const dispatch=useDispatch();
 useEffect(()=>{
   const getSearchSuggestions= async ()=>{
     console.log("Api call "+searchQuery)
@@ -13,18 +17,20 @@ useEffect(()=>{
     const json=await data.json();
     console.log(json[1])
     setSuggestion(json[1])
+    dispatch(cacheResults({[searchQuery]:json[1]}))
   }
   const timer=setTimeout(() => {
+    if(searchCache[searchQuery]){
+      setSuggestion(searchCache[searchQuery])
+    }else{
     getSearchSuggestions();
-  }, 200);
+  }}, 200);
   return()=>{
     clearTimeout(timer)
     
   }
-   
-
 },[searchQuery])
-  const dispatch = useDispatch();
+
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
@@ -56,12 +62,14 @@ useEffect(()=>{
           type="text"
           value={searchQuery}
           onChange={(e)=>setSerachQuery(e.target.value)}
+          onFocus={()=>setShowSuggestion(true)}
+          onBlur={()=>setShowSuggestion(false)}
         />
         <button className="border border-gray-400 p-1 px-4 bg-gray-100 rounded-r-full">
           🔍
         </button>
         </div>
-        {suggestions.length>=1 && <div className="fixed bg-white shadow-lg w-[27.5rem] rounded-lg  px-5 py-2 border border-gray-200">
+        { showSuggestion && suggestions.length>=1 && <div className="fixed bg-white shadow-lg w-[27.5rem] rounded-lg  px-5 py-2 border border-gray-200">
           <ul>
             {suggestions.map((s)=>(  <li key={s} className="shadow-sm py-2 hover:bg-gray-100"> 🔍 {s}</li>)) }
           </ul>
