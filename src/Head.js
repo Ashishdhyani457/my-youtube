@@ -11,7 +11,7 @@ export default function Head() {
   const searchCache=useSelector(store=>store.search);
   const dispatch=useDispatch();
   
-useEffect((dispatch,)=>{
+useEffect(()=>{
   const getSearchSuggestions= async ()=>{
     console.log("Api call "+searchQuery)
     const data = await fetch(YOUTUBE_SEARCH_API+searchQuery)
