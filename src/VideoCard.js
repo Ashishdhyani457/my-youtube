@@ -3,6 +3,7 @@ import React from 'react'
 export default function VideoCard({data}) {
   // console.log(data)
   const {snippet,statistics}=data;
+  console.log(statistics)
   const{channelTitle,title,thumbnails}=snippet;
 
   return (
@@ -11,7 +12,8 @@ export default function VideoCard({data}) {
      <ul>
       <li className='font-bold'>{title}</li>
       <li>{channelTitle}</li>
-      <li>{statistics.viewcount}</li>
+      <li>Views Count :{statistics.viewCount}</li>
+    
      </ul>
     </div>
   )
